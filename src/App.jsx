@@ -3,27 +3,36 @@ import "./App.css";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
 import { useTaskContext } from "./hooks/useTaskContext";
+import { generateUUID } from "./utils";
 
 function App() {
   const { tasks, dispatch } = useTaskContext();
-  const [newTask, setNewtask] = useState("");
+  const [newTask, setNewtask] = useState({ name: "", desc: "" });
 
   const handleAddTask = () => {
-    if (!newTask || newTask.length === 0) {
+    console.log(newTask.name);
+    if (!newTask.name || newTask.name.length === 0) {
       return;
     }
-    dispatch({ type: "ADD_TASK", payload: newTask });
-    setNewtask("");
+    const uuid = generateUUID();
+    console.log(uuid);
+    dispatch({ type: "ADD_TASK", payload: { _id: uuid, ...newTask } });
+    setNewtask({
+      name: "",
+      desc: "",
+      status: "Not Started",
+      date: new Date(),
+    });
   };
   return (
     <>
       <div className="container mx-auto px-4 py-6 h-[100vh]">
-        {tasks.length}
         <Form>
           <Form.Input
             placeholder="New Task"
-            value={newTask}
-            onChange={(e) => setNewtask(e.target.value)}
+            value={newTask.name}
+            onKeyUp={(e) => e.key === "Enter" && handleAddTask()}
+            onChange={(e) => setNewtask({ ...newTask, name: e.target.value })}
           />
           <Form.Button title="Add" onclick={handleAddTask} />
         </Form>
@@ -32,19 +41,28 @@ function App() {
 
         <div className="grid grid-cols-[1fr_10px_1fr_10px_1fr] gap-2">
           <TodoList>
-            <TodoList.Header status="Not Started" />
+            <TodoList.Header status="Not Started" color="green" />
+            <TodoList.List
+              items={tasks.filter((task) => task.status === "Not Started")}
+            />
           </TodoList>
 
           <div className="divider divider-horizontal mx-0" />
 
           <TodoList>
             <TodoList.Header status="In Progress" />
+            <TodoList.List
+              items={tasks.filter((task) => task.status === "In Progress")}
+            />
           </TodoList>
 
           <div className="divider divider-horizontal mx-0" />
 
           <TodoList>
             <TodoList.Header status="Done" />
+            <TodoList.List
+              items={tasks.filter((task) => task.status === "Done")}
+            />
           </TodoList>
         </div>
       </div>
