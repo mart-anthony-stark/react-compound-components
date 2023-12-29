@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import Form from "./components/Form";
 import TodoList from "./components/TodoList";
@@ -10,12 +10,10 @@ function App() {
   const [newTask, setNewtask] = useState({ name: "", desc: "" });
 
   const handleAddTask = () => {
-    console.log(newTask.name);
     if (!newTask.name || newTask.name.length === 0) {
       return;
     }
     const uuid = generateUUID();
-    console.log(uuid);
     dispatch({ type: "ADD_TASK", payload: { _id: uuid, ...newTask } });
     setNewtask({
       name: "",
@@ -27,6 +25,7 @@ function App() {
   return (
     <>
       <div className="container mx-auto px-4 py-6 h-[100vh]">
+        <div className="text-2xl">Task Management App</div>
         <Form>
           <Form.Input
             placeholder="New Task"
@@ -36,9 +35,7 @@ function App() {
           />
           <Form.Button title="Add" onclick={handleAddTask} />
         </Form>
-
         <div className="divider"></div>
-
         <div className="grid grid-cols-[1fr_10px_1fr_10px_1fr] gap-2">
           <TodoList>
             <TodoList.Header status="Not Started" color="green" />

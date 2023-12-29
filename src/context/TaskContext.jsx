@@ -29,7 +29,14 @@ export const taskReducer = (state, action) => {
 
 export const TaskContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, {
-    tasks: [],
+    tasks: [
+      {
+        _id: "asd",
+        name: "as",
+        status: "Not Started",
+        date: new Date(),
+      },
+    ],
   });
 
   return (

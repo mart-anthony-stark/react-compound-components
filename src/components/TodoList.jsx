@@ -24,11 +24,17 @@ TodoList.List = ({ items }) => {
       {items.map((card) => (
         <Card key={card._id}>
           <Card.Actions
+            date={card.date}
             onDelete={() => {
               dispatch({ type: "DELETE_TASK", payload: card._id });
             }}
           />
-          <Card.Content name={card.name} />
+          <Card.Content
+            card={card}
+            changeStatus={(s) => {
+              dispatch({ type: "EDIT_TASK", payload: { ...card, status: s } });
+            }}
+          />
         </Card>
       ))}
     </div>

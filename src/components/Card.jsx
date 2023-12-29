@@ -4,8 +4,9 @@ const Card = ({ children }) => {
   );
 };
 
-Card.Actions = ({ onEdit, onDelete }) => (
-  <div className="card-actions justify-end">
+Card.Actions = ({ onEdit, onDelete, date }) => (
+  <div className="card-actions justify-between">
+    <div className="text-gray-500 pl-4">{date.toLocaleDateString()}</div>
     <button onClick={onDelete} className="btn btn-square btn-sm">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -25,10 +26,26 @@ Card.Actions = ({ onEdit, onDelete }) => (
   </div>
 );
 
-Card.Content = ({ name, desc }) => (
+const STATUS = ["Not Started", "In Progress", "Done"];
+
+Card.Content = ({ card, changeStatus }) => (
   <div className="card-body items-center text-center">
-    <h2 className="card-title">{name}</h2>
-    <p>{desc}</p>
+    <h2 className="card-title">{card.name}</h2>
+    <p>{card.desc}</p>
+
+    <details className="dropdown">
+      <summary className="m-1 btn">Change Status</summary>
+      <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+        {STATUS.map(
+          (s) =>
+            s !== card.status && (
+              <li key={s} onClick={() => changeStatus(s)}>
+                <a>{s}</a>
+              </li>
+            )
+        )}
+      </ul>
+    </details>
   </div>
 );
 export default Card;
