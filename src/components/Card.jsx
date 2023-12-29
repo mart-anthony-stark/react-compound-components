@@ -4,7 +4,7 @@ const Card = ({ children }) => {
   );
 };
 
-Card.Actions = ({ onEdit, onDelete, date }) => (
+Card.Actions = ({ onDelete, date }) => (
   <div className="card-actions justify-between">
     <div className="text-gray-500 pl-4">{date.toLocaleDateString()}</div>
     <button onClick={onDelete} className="btn btn-square btn-sm">

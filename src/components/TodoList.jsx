@@ -5,15 +5,13 @@ const TodoList = ({ children }) => {
   return <div className="container h-[83vh] mx-auto p-2 ">{children}</div>;
 };
 
-TodoList.Header = ({ status, color }) => {
-  const statusColor = {
-    "Not Started": "gray",
-    "In Progress": "green",
-    Done: "blue",
-  };
-
-  return (
-    <div className={`text-${statusColor[status]}-500 text-end`}>{status} </div>
+TodoList.Header = ({ status }) => {
+  return status === "Not Started" ? (
+    <div className={`text-gray-500 text-end`}>{status} </div>
+  ) : status === "In Progress" ? (
+    <div className={`text-green-500 text-end`}>{status} </div>
+  ) : (
+    <div className={`text-blue-500 text-end`}>{status} </div>
   );
 };
 
@@ -26,8 +24,12 @@ TodoList.List = ({ items }) => {
           <Card.Actions
             date={card.date}
             onDelete={() => {
-              dispatch({ type: "DELETE_TASK", payload: card._id });
+              dispatch({ type: "STAGE_DELETE_ID", payload: card._id });
+              document.getElementById("my_modal_1").showModal();
             }}
+            // onDelete={() => {
+            //   dispatch({ type: "DELETE_TASK", payload: card._id });
+            // }}
           />
           <Card.Content
             card={card}
