@@ -27,7 +27,7 @@ Card.Actions = ({ onDelete, date }) => (
 );
 
 const STATUS = ["Not Started", "In Progress", "Done"];
-
+const COLOR = ["gray", "green", "blue"];
 Card.Content = ({ card, changeStatus }) => (
   <div className="card-body items-center text-center">
     <h2 className="card-title">{card.name}</h2>
@@ -40,7 +40,7 @@ Card.Content = ({ card, changeStatus }) => (
           (s) =>
             s !== card.status && (
               <li key={s} onClick={() => changeStatus(s)}>
-                <a>{s}</a>
+                <a className={`text-${COLOR[STATUS.indexOf(s)]}-500`}>{s}</a>
               </li>
             )
         )}

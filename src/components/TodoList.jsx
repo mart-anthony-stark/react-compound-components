@@ -17,6 +17,13 @@ TodoList.Header = ({ status }) => {
 
 TodoList.List = ({ items }) => {
   const { dispatch } = useTaskContext();
+  if (!items || items?.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-[100%]">
+        <div className="text-gray-700 text-2xl">No tasks to show</div>
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col items-center gap-2 py-2 overflow-auto h-[100%]">
       {items.map((card) => (
@@ -27,9 +34,6 @@ TodoList.List = ({ items }) => {
               dispatch({ type: "STAGE_DELETE_ID", payload: card._id });
               document.getElementById("my_modal_1").showModal();
             }}
-            // onDelete={() => {
-            //   dispatch({ type: "DELETE_TASK", payload: card._id });
-            // }}
           />
           <Card.Content
             card={card}
